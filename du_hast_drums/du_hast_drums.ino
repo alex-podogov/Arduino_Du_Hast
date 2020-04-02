@@ -10,8 +10,8 @@ const int drum_note_length = 30;
 
 const int drum_multiplier = 1;
 
-const int Kick_drum = 65 * drum_multiplier;
-const int Hat_drum = 52 * drum_multiplier;
+const int Kick_drum = 55 * drum_multiplier;
+const int Hat_drum = 49 * drum_multiplier;
 
 
 //IRS triggers
@@ -101,4 +101,8 @@ void loop() {
     delay(6000);
     
   }
+
+  
+
+  
 }
