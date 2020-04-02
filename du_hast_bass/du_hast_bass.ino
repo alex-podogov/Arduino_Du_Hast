@@ -8,9 +8,12 @@ const int activatePin = 4;
 //Bass
 const int delay_pair = 240;
 const int note_length = 150;
+const int bang_length = 50;
 
 const int multiplier = 1;
 
+const int intro_note = 165 * multiplier;
+const int banging = 55 * multiplier;
 const int A_bass = 110 * multiplier;
 const int B_bass = 123 * multiplier;
 const int C_bass = 131 * multiplier;
@@ -36,18 +39,44 @@ void setup() {
 void loop() {
   activate = digitalRead(activatePin);
   if (activate == HIGH) {
+    
+    //Intro before banging
+    for (int iter = 1; iter < 17; iter++) {
+      tone(pinBass, intro_note, note_length);
+      delay(150);
+      tone(pinBass, intro_note, note_length);
+      delay(150);
+      tone(pinBass, intro_note, note_length);
+      delay(250);
+      tone(pinBass, intro_note, note_length);
+      delay(150);
+      tone(pinBass, intro_note, note_length);
+      delay(300);
+    }
+
+    //Banging
+    tone(pinBass, banging, bang_length);
+    delay(350);
+    tone(pinBass, banging, bang_length);
+    delay(delay_pair * 2);
+    tone(pinBass, banging, bang_length);
+    delay(350);
+    tone(pinBass, banging, bang_length);
+    delay(500);
+    
+    //Riff start
     digitalWrite(sendInterruptDrumsPin, LOW);
 
     //Intro x 3
     for(int iter = 1; iter < 4; iter++){
       //AG
-      tone(pinBass, A_bass, note_length); //Bass drum
+      tone(pinBass, A_bass, note_length); 
       delay(delay_pair);
       tone(pinBass, G_bass, note_length);
       delay(delay_pair);
       //E x 5
       for(int iter = 1; iter < 6; iter++){
-        tone(pinBass, E_bass, note_length); //Bass drum every 2 notes
+        tone(pinBass, E_bass, note_length); 
         delay(delay_pair);
       }
       tone(pinBass, A_bass, note_length);
@@ -328,9 +357,11 @@ void loop() {
       tone(8, E_bass, note_length);
       delay(delay_pair);
     }
-    
+
     delay(6000);
+
     
   }
+
     
 }
