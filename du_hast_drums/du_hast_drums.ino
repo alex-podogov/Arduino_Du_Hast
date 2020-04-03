@@ -97,8 +97,8 @@ void loop() {
         delay(delay_beat);
       }
     }
-
-    delay(6000);
+    
+    drums_start = false;
     
   }
 
