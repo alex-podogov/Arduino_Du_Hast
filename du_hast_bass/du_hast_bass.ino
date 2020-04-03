@@ -3,6 +3,7 @@
 const int pinBass = 8;
 const int sendInterruptDrumsPin = 12;
 const int sendInterruptKeysPin = 11;
+const int sendInterruptEffectsPin = 10;
 const int activatePin = 4;
 
 //Bass
@@ -13,7 +14,7 @@ const int bang_length = 50;
 const int multiplier = 1;
 
 const int intro_note = 165 * multiplier;
-const int banging = 55 * multiplier;
+const int banging = 110 * multiplier;
 const int A_bass = 110 * multiplier;
 const int B_bass = 123 * multiplier;
 const int C_bass = 131 * multiplier;
@@ -30,18 +31,23 @@ void setup() {
   pinMode(pinBass, OUTPUT);
   pinMode(sendInterruptDrumsPin, OUTPUT);
   pinMode(sendInterruptKeysPin, OUTPUT);
+  pinMode(sendInterruptEffectsPin, OUTPUT);
   digitalWrite(pinBass, LOW);
   digitalWrite(sendInterruptDrumsPin, HIGH);
   digitalWrite(sendInterruptKeysPin, HIGH);
+  digitalWrite(sendInterruptEffectsPin, HIGH);
   
 }
 
 void loop() {
   activate = digitalRead(activatePin);
   if (activate == HIGH) {
-    
+
     //Intro before banging
     for (int iter = 1; iter < 17; iter++) {
+      if (iter >= 8) {
+        digitalWrite(sendInterruptEffectsPin, LOW);
+      }
       tone(pinBass, intro_note, note_length);
       delay(150);
       tone(pinBass, intro_note, note_length);
@@ -53,14 +59,16 @@ void loop() {
       tone(pinBass, intro_note, note_length);
       delay(300);
     }
+    
+    digitalWrite(sendInterruptEffectsPin, HIGH);
 
     //Banging
     tone(pinBass, banging, bang_length);
-    delay(350);
+    delay(delay_pair);
     tone(pinBass, banging, bang_length);
     delay(delay_pair * 2);
     tone(pinBass, banging, bang_length);
-    delay(350);
+    delay(delay_pair);
     tone(pinBass, banging, bang_length);
     delay(500);
     
@@ -140,7 +148,6 @@ void loop() {
   
     delay(2000);
   
-    
     //Bridge x 3
     for(int iter = 1; iter < 4; iter++){
       //AG
@@ -181,8 +188,10 @@ void loop() {
       delay(delay_pair);
     }
   
-
     //Verse x 3
+
+    digitalWrite(sendInterruptEffectsPin, LOW);
+    
     for(int iter = 1; iter < 5; iter++){
       //AG
       tone(8, A_bass, note_length); 
@@ -211,7 +220,9 @@ void loop() {
         tone(8, E_bass, note_length);
         delay(delay_pair);
       }
-    } 
+    }
+
+    digitalWrite(sendInterruptEffectsPin, HIGH);
   
     delay(2000);
 
@@ -358,7 +369,6 @@ void loop() {
       delay(delay_pair);
     }
 
-    delay(6000);
 
     
   }
